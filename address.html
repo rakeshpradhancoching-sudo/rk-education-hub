@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Location - SwayamStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f1f5f9; margin: 0; padding-bottom: 20px; }
+        .header { background: #2563eb; color: white; padding: 15px; display: flex; align-items: center; gap: 10px; }
+        .back-btn { font-size: 20px; cursor: pointer; text-decoration: none; color: white; }
+        
+        .container { padding: 20px; }
+        .location-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        .gps-btn { width: 100%; background: #dbeafe; color: #2563eb; border: 2px dashed #2563eb; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        
+        .input-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; font-size: 13px; color: #64748b; margin-bottom: 5px; font-weight: 600; }
+        input, select { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: #2563eb; }
+
+        .save-btn { width: 100%; background: #2563eb; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="profile.html" class="back-btn">←</a>
+        <b>Delivery Address</b>
+    </div>
+
+    <div class="container">
+        <div class="location-card">
+            <button class="gps-btn" onclick="getLocation()">
+                📍 Use Current Location
+            </button>
+
+            <form onsubmit="event.preventDefault(); alert('Address Saved!'); location.href='profile.html';">
+                <div class="input-group">
+                    <label>Pura Naam</label>
+                    <input type="text" placeholder="Receiver's Name" required>
+                </div>
+
+                <div class="input-group">
+                    <label>House No. / Gaon ka Naam</label>
+                    <input type="text" id="village" placeholder="e.g. Goudmal" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Tehsil / Block</label>
+                    <input type="text" id="tehsil" placeholder="e.g. Jharbandh" required>
+                </div>
+
+                <div class="input-group">
+                    <label>District</label>
+                    <select>
+                        <option>Bargarh</option>
+                        <option>Sambalpur</option>
+                        <option>Jharsuguda</option>
+                        <option>Balangir</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Pincode</label>
+                    <input type="number" placeholder="768XXX" required>
+                </div>
+
+                <button type="submit" class="save-btn">Save Address</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            alert("Location Detected!\nLatitude: " + position.coords.latitude + 
+            "\nLongitude: " + position.coords.longitude);
+            // Yahan hum reverse geocoding use karke address auto-fill kar sakte hain
+        }
+
+        function showError(error) {
+            alert("Location access denied. Please enter manually.");
+        }
+    </script>
+
+</body>
+</html>
