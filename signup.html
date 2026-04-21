@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - SwayamStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Same as login for consistency */
+        body { font-family: 'Poppins', sans-serif; background: #f1f5f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 350px; text-align: center; }
+        .logo { background: #2563eb; color: white; width: 50px; height: 50px; border-radius: 12px; line-height: 50px; font-weight: bold; font-size: 24px; margin: 0 auto 15px; }
+        h2 { margin-bottom: 5px; color: #1e293b; }
+        p { color: #64748b; font-size: 14px; margin-bottom: 25px; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; font-size: 13px; color: #475569; margin-bottom: 5px; font-weight: 600; }
+        input { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: #2563eb; }
+        .btn { width: 100%; background: #2563eb; color: white; border: none; padding: 13px; border-radius: 10px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        .footer { margin-top: 20px; font-size: 13px; color: #64748b; }
+        .footer a { color: #2563eb; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="logo">S</div>
+    <h2>Create Account</h2>
+    <p>Join SwayamStore family today</p>
+    
+    <form onsubmit="event.preventDefault(); alert('Account created successfully!'); location.href='login.html';">
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" placeholder="Your Name" required>
+        </div>
+        <div class="input-group">
+            <label>Mobile Number</label>
+            <input type="tel" placeholder="98765-XXXXX" required>
+        </div>
+        <div class="input-group">
+            <label>Set Password</label>
+            <input type="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn">Register</button>
+    </form>
+
+    <div class="footer">
+        Already have an account? <a href="login.html">Login</a>
+    </div>
+</div>
+
+</body>
+</html>
