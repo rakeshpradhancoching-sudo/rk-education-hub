@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | SwayamStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f8fafc; margin: 0; padding-bottom: 30px; }
+        .header { background: #2563eb; color: white; padding: 15px; text-align: center; font-weight: bold; }
+        .container { padding: 15px; }
+        
+        .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        .card-title { font-size: 14px; font-weight: 600; color: #64748b; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        
+        .address-info { font-size: 14px; color: #1e293b; line-height: 1.6; }
+        .change-link { color: #2563eb; text-decoration: none; font-size: 12px; }
+
+        .payment-option { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 10px; cursor: pointer; }
+        .payment-option input { width: 18px; height: 18px; }
+        .payment-option.active { border-color: #2563eb; background: #eff6ff; }
+
+        .price-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+        .total-row { border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 10px; font-weight: 700; font-size: 16px; }
+
+        .btn-order { width: 100%; background: #059669; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">Confirm Order</div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-title">
+                DELIVERY ADDRESS
+                <a href="address.html" class="change-link">Change</a>
+            </div>
+            <div class="address-info">
+                <b>Rakesh Pradhan</b><br>
+                Goudmal Mauja, Jharbandh Tehsil<br>
+                Bargarh, Odisha - 768XXX<br>
+                Ph: +91 98765-XXXXX
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">PAYMENT METHOD</div>
+            
+            <label class="payment-option active">
+                <input type="radio" name="pay" checked>
+                <div>
+                    <b>Cash on Delivery (COD)</b><br>
+                    <small>Pay when you get your order</small>
+                </div>
+            </label>
+
+            <label class="payment-option">
+                <input type="radio" name="pay">
+                <div>
+                    <b>UPI (GPay / PhonePe)</b><br>
+                    <small>Pay online securely</small>
+                </div>
+            </label>
+        </div>
+
+        <div class="card">
+            <div class="card-title">PRICE DETAILS</div>
+            <div class="price-row"><span>Items Total</span><span>₹1,499</span></div>
+            <div class="price-row"><span>Delivery Fee</span><span style="color:#059669;">FREE</span></div>
+            <div class="price-row"><span>Platform Fee</span><span>₹5</span></div>
+            <div class="price-row total-row"><span>Amount Payable</span><span>₹1,504</span></div>
+        </div>
+
+        <button class="btn-order" onclick="placeOrder()">Place Order</button>
+    </div>
+
+    <script>
+        function placeOrder() {
+            // Hum yahan ek simple confirmation dikhayenge
+            alert("Congratulations! Aapka order receive ho gaya hai.\nOrder ID: SS-9921");
+            location.href = 'index.html';
+        }
+    </script>
+
+</body>
+</html>
+
