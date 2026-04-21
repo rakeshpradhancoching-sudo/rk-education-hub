@@ -1,248 +1,62 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwayamStore | Aapki Apni Pehchan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>SwayamStore | Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #2563eb;
-            --secondary: #7c3aed;
-            --bg: #f8fafc;
-            --text-dark: #1e293b;
-            --text-light: #64748b;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            background-color: var(--bg);
-            color: var(--text-dark);
-            padding-bottom: 70px; /* Space for bottom nav */
-        }
-
-        /* Header Styling */
-        .header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .top-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand {
-            font-size: 22px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .location-tag {
-            font-size: 12px;
-            background: rgba(255,255,255,0.2);
-            padding: 4px 10px;
-            border-radius: 20px;
-        }
-
-        .search-box {
-            background: white;
-            margin-top: 15px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-        }
-
-        .search-box input {
-            border: none;
-            outline: none;
-            width: 100%;
-            margin-left: 10px;
-            font-size: 14px;
-        }
-
-        /* Categories Section */
-        .section-header {
-            padding: 20px 20px 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .section-header h3 { margin: 0; font-size: 18px; }
-        .view-all { color: var(--primary); font-size: 13px; font-weight: 600; text-decoration: none; }
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            padding: 0 20px;
-        }
-
-        .cat-item {
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-dark);
-        }
-
-        .cat-circle {
-            background: white;
-            height: 65px;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            margin-bottom: 5px;
-            transition: 0.3s;
-        }
+        /* CSS Pehle wala hi hai, bas styling thodi clean ki hai */
+        :root { --primary: #2563eb; --bg: #f8fafc; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--bg); padding-bottom: 80px; }
+        .header { background: var(--primary); color: white; padding: 20px; border-radius: 0 0 20px 20px; position: sticky; top: 0; z-index: 100; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; }
+        .search-box { background: white; margin-top: 15px; border-radius: 10px; padding: 10px; display: flex; align-items: center; }
+        .search-box input { border: none; outline: none; width: 100%; margin-left: 10px; }
         
-        .cat-circle:hover { transform: translateY(-3px); }
-        .cat-label { font-size: 11px; font-weight: 600; }
-
-        /* Featured Products */
-        .prod-container {
-            display: flex;
-            overflow-x: auto;
-            gap: 15px;
-            padding: 10px 20px;
-            scrollbar-width: none;
-        }
-
-        .prod-card {
-            min-width: 160px;
-            background: white;
-            border-radius: 15px;
-            padding: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .prod-img {
-            height: 110px;
-            background: #f1f5f9;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 45px;
-        }
-
-        .prod-title { font-size: 14px; font-weight: 600; margin: 10px 0 5px; }
-        .prod-price { color: #059669; font-weight: 700; }
-
-        .btn-add {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid #e2e8f0;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-light);
-            font-size: 11px;
-            text-align: center;
-            flex: 1;
-        }
-
+        .section-header { padding: 20px; display: flex; justify-content: space-between; font-weight: bold; }
+        .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0 20px; }
+        .cat-item { text-align: center; text-decoration: none; color: #1e293b; }
+        .cat-icon { background: white; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #e2e8f0; }
+        .nav-link { text-decoration: none; color: #64748b; font-size: 11px; text-align: center; }
         .nav-link.active { color: var(--primary); font-weight: bold; }
-        .nav-icon { font-size: 20px; display: block; margin-bottom: 2px; }
-
+        .nav-icon { display: block; font-size: 20px; }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="top-row">
-            <div class="brand" onclick="location.href='index.html'">SwayamStore</div>
-            <div class="location-tag">📍 Bargarh, Odisha</div>
+    <div class="header">
+        <div class="top-bar">
+            <div class="brand" onclick="location.href='index.html'" style="cursor:pointer;">Swayam<b>Store</b></div>
+            <div style="font-size: 12px;">
+                <a href="login.html" style="color: white; text-decoration: none;">Login</a>
+            </div>
         </div>
         <div class="search-box">
             <span>🔍</span>
-            <input type="text" placeholder="Search Grocery, Fashion, Mobiles...">
+            <input type="text" placeholder="Search for products...">
         </div>
-    </header>
-
-    <div style="margin: 20px; height: 120px; background: #dbeafe; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #1d4ed8; font-weight: bold; border: 2px dashed #2563eb;">
-        Mega Sale: Up to 50% Off!
     </div>
 
-    <div class="section-header">
-        <h3>Categories</h3>
-        <a href="#" class="view-all">See All</a>
+    <div class="section-header">Categories</div>
+    <div class="cat-grid">
+        <div class="cat-item"><div class="cat-icon">🍎</div><small>Grocery</small></div>
+        <div class="cat-item"><div class="cat-icon">📱</div><small>Mobile</small></div>
+        <div class="cat-item"><div class="cat-icon">👕</div><small>Fashion</small></div>
+        <div class="cat-item"><div class="cat-icon">🧴</div><small>Beauty</small></div>
     </div>
 
-    <div class="category-grid">
-        <a href="#" class="cat-item">
-            <div class="cat-circle">🌾</div>
-            <div class="cat-label">Grocery</div>
-        </a>
-        <a href="#" class="cat-item">
-            <div class="cat-circle">👕</div>
-            <div class="cat-label">Fashion</div>
-        </a>
-        <a href="#" class="cat-item">
-            <div class="cat-circle">📱</div>
-            <div class="cat-label">Mobiles</div>
-        </a>
-        <a href="#" class="cat-item">
-            <div class="cat-circle">🧴</div>
-            <div class="cat-label">Beauty</div>
-        </a>
-    </div>
-
-    <div class="section-header">
-        <h3>Popular Items</h3>
-        <a href="#" class="view-all">View All</a>
-    </div>
-
-    <div class="prod-container">
-        <div class="prod-card">
-            <div class="prod-img">👟</div>
-            <div class="prod-title">Sports Shoes</div>
-            <div class="prod-price">₹799</div>
-            <button class="btn-add">Add to Cart</button>
-        </div>
-        <div class="prod-card">
-            <div class="prod-img">🎧</div>
-            <div class="prod-title">Headphones</div>
-            <div class="prod-price">₹1,299</div>
-            <button class="btn-add">Add to Cart</button>
-        </div>
-        <div class="prod-card">
-            <div class="prod-img">📱</div>
-            <div class="prod-title">Smart Phone</div>
-            <div class="prod-price">₹12,499</div>
-            <button class="btn-add">Add to Cart</button>
+    <div class="section-header">New Arrivals</div>
+    <div style="padding: 0 20px;">
+        <div style="background: white; padding: 15px; border-radius: 15px; display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+            <div style="font-size: 40px;">🎧</div>
+            <div style="flex-grow: 1;">
+                <b>Wireless Headset</b><br>
+                <span style="color: green;">₹999</span>
+            </div>
+            <button onclick="location.href='cart.html'" style="background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 8px;">Add</button>
         </div>
     </div>
 
@@ -250,7 +64,7 @@
         <a href="index.html" class="nav-link active">
             <span class="nav-icon">🏠</span>Home
         </a>
-        <a href="#" class="nav-link">
+        <a href="orders.html" class="nav-link">
             <span class="nav-icon">📦</span>Orders
         </a>
         <a href="cart.html" class="nav-link">
