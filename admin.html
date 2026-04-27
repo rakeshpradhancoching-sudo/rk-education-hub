@@ -3,103 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwayamStore | Admin Panel</title>
+    <title>SwayamStore | Field Agent Panel</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #f1f5f9; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        :root { --primary: #2563eb; --dark: #1e293b; --success: #059669; }
+        body { font-family: 'Poppins', sans-serif; background: #f1f5f9; margin: 0; padding-bottom: 50px; }
         
-        /* Admin Header */
-        .admin-nav { background: #1e293b; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .admin-nav b { font-size: 18px; color: #38bdf8; }
+        /* Login Overlay */
+        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark); z-index: 2000; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
+        
+        /* Header */
+        .admin-header { background: var(--dark); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .admin-header b { color: #38bdf8; font-size: 18px; }
 
-        .container { padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+        .container { padding: 15px; max-width: 500px; margin: 0 auto; }
 
-        /* Stats Row */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .stat-box { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 4px solid #2563eb; }
-        .stat-box small { color: #64748b; font-size: 12px; }
-        .stat-box div { font-size: 20px; font-weight: 700; color: #1e293b; }
+        /* Camera Box */
+        .camera-container { background: white; border: 2px dashed #cbd5e1; border-radius: 15px; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; position: relative; overflow: hidden; }
+        .camera-container input { opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
+        .camera-container img { width: 100%; height: 100%; object-fit: cover; display: none; position: absolute; top: 0; left: 0; }
+        .camera-icon { font-size: 40px; }
 
-        /* Form Card */
-        .admin-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px; }
-        h3 { margin-top: 0; font-size: 16px; color: #1e293b; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
-
+        /* Form Styling */
+        .form-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .input-group { margin-bottom: 15px; }
-        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #475569; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1.5px solid #e2e8f0; border-radius: 8px; outline: none; box-sizing: border-box; }
-        
-        .btn-add { background: #2563eb; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 5px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; outline: none; font-size: 14px; }
+        input:focus { border-color: var(--primary); }
 
-        /* Recent Orders Table */
-        .order-row { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; border: 1px solid #e2e8f0; }
-        .status-pending { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 5px; font-weight: 600; }
+        .btn-submit { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        .btn-submit:active { transform: scale(0.98); background: #1d4ed8; }
+
+        /* Status Badge */
+        .status-msg { margin-top: 15px; padding: 10px; border-radius: 8px; font-size: 13px; display: none; text-align: center; }
     </style>
 </head>
 <body>
 
-    <nav class="admin-nav">
-        <div><b>SwayamStore</b> Admin</div>
-        <div style="font-size: 12px;">Welcome, Rakesh</div>
-    </nav>
-
-    <div class="container">
-        
-        <div class="stats-grid">
-            <div class="stat-box">
-                <small>Total Sales</small>
-                <div>₹12,450</div>
-            </div>
-            <div class="stat-box" style="border-color: #059669;">
-                <small>Active Orders</small>
-                <div>08</div>
-            </div>
+    <div id="loginOverlay">
+        <div style="padding: 20px; width: 100%;">
+            <div style="font-size: 40px; margin-bottom: 10px;">🛡️</div>
+            <h2>Admin Access</h2>
+            <p style="opacity: 0.7;">Enter Secret PIN to Continue</p>
+            <input type="password" id="pinInput" placeholder="Enter PIN" style="max-width: 200px; text-align: center; letter-spacing: 5px;">
+            <br><br>
+            <button onclick="checkPin()" class="btn-submit" style="width: auto; padding: 10px 40px;">Login</button>
         </div>
-
-        <div class="admin-card">
-            <h3>➕ Naya Product Add Karein</h3>
-            <form id="productForm">
-                <div class="input-group">
-                    <label>Product ka Naam</label>
-                    <input type="text" placeholder="e.g. Sambalpuri Saree, Basmati Rice" required>
-                </div>
-                <div class="input-group">
-                    <label>Category</label>
-                    <select>
-                        <option>Grocery</option>
-                        <option>Fashion</option>
-                        <option>Electronics</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Price (₹)</label>
-                    <input type="number" placeholder="0.00" required>
-                </div>
-                <div class="input-group">
-                    <label>Product Image Link (URL)</label>
-                    <input type="text" placeholder="https://image-link.com">
-                </div>
-                <button type="button" class="btn-add" onclick="alert('Product Added Successfully!')">List Product</button>
-            </form>
-        </div>
-
-        <h3>📦 Recent Orders</h3>
-        <div class="order-row">
-            <div>
-                <b>#SS-102</b> - Rakesh P.<br>
-                <small>Wireless Headphones - ₹999</small>
-            </div>
-            <span class="status-pending">Pending</span>
-        </div>
-        
-        <div class="order-row">
-            <div>
-                <b>#SS-101</b> - Amit Kumar<br>
-                <small>Basmati Rice 5kg - ₹450</small>
-            </div>
-            <span class="status-pending" style="background:#dcfce7; color:#166534;">Delivered</span>
-        </div>
-
     </div>
 
+    <header class="admin-header">
+        <div>Swayam<b>Store</b> Admin</div>
+        <div onclick="location.reload()" style="cursor:pointer; font-size: 12px; background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 5px;">Logout</div>
+    </header>
+
+    <div class="container">
+        <h3 style="margin-top: 5px;">📸 Add New Product</h3>
+        
+        <div class="form-card">
+            <label>Product Photo (Field Capture)</label>
+            <div class="camera-container" id="camBox">
+                <input type="file" accept="image/*" capture="environment" onchange="previewImage(this)">
+                <div class="camera-icon">📷</div>
+                <div id="camLabel">Tap to Open Camera</div>
+                <img id="imagePreview">
+            </div>
+
+            <div class="input-group">
+                <label>Dukan ka Naam & Item</label>
+                <input type="text" id="pName" placeholder="e.g. Sahu Store - 5kg Rice">
+            </div>
+
+            <div class="input-group">
+                <label>Category</label>
+                <select id="pCat">
+                    <option value="grocery">Grocery</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="mobile">Mobile & Tech</option>
+                    <option value="local">Local Special</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Selling Price (₹)</label>
+                <input type="number" id="pPrice" placeholder="Enter price in Rupees">
+            </div>
+
+            <div class="input-group">
+                <label>Stock Quantity (Optional)</label>
+                <input type="text" id="pStock" placeholder="e.g. 10 Units or Available">
+            </div>
+
+            <button class="btn-submit" onclick="submitProduct()">🚀 Live karein (Upload)</button>
+            <div id="status" class="status-msg"></div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Simple PIN Security (Default: 1234)
+        function checkPin() {
+            const pin = document.getElementById('pinInput').value;
+            if(pin === "1234") { // Aap ise apne hisaab se change kar sakte hain
+                document.getElementById('loginOverlay').style.display = 'none';
+            } else {
+                alert("Galat PIN! Dubara koshish karein.");
+            }
+        }
+
+        // 2. Image Preview Logic
+        function previewImage(input) {
+            const preview = document.getElementById('imagePreview');
+            const camLabel = document.getElementById('camLabel');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    camLabel.style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // 3. Submit Logic (Abhi ke liye local alert)
+        function submitProduct() {
+            const name = document.getElementById('pName').value;
+            const price = document.getElementById('pPrice').value;
+            const status = document.getElementById('status');
+
+            if(name === "" || price === "") {
+                alert("Pahle detail bhariye!");
+                return;
+            }
+
+            status.style.display = 'block';
+            status.style.background = '#dcfce7';
+            status.style.color = '#166534';
+            status.innerHTML = "<b>Success!</b> Product database mein add ho gaya.";
+
+            // Reset form for next entry after 2 seconds
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+        }
+    </script>
 </body>
 </html>
