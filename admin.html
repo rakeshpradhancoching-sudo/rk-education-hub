@@ -3,148 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwayamStore | Field Agent Panel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>SwayamStore - Admin Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #2563eb; --dark: #1e293b; --success: #059669; }
-        body { font-family: 'Poppins', sans-serif; background: #f1f5f9; margin: 0; padding-bottom: 50px; }
+        :root { --primary: #2563eb; --bg: #f1f5f9; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding: 15px; }
         
         /* Login Overlay */
-        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark); z-index: 2000; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
+        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1000; display: flex; align-items: center; justify-content: center; }
+        .login-card { width: 85%; max-width: 350px; text-align: center; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
-        /* Header */
-        .admin-header { background: var(--dark); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .admin-header b { color: #38bdf8; font-size: 18px; }
-
-        .container { padding: 15px; max-width: 500px; margin: 0 auto; }
-
-        /* Camera Box */
-        .camera-container { background: white; border: 2px dashed #cbd5e1; border-radius: 15px; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; position: relative; overflow: hidden; }
-        .camera-container input { opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
-        .camera-container img { width: 100%; height: 100%; object-fit: cover; display: none; position: absolute; top: 0; left: 0; }
-        .camera-icon { font-size: 40px; }
-
-        /* Form Styling */
-        .form-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        /* Main Container */
+        .admin-box { max-width: 500px; margin: 0 auto; padding-bottom: 50px; }
+        .form-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        /* Camera Section */
+        .camera-box { width: 100%; height: 220px; border: 2px dashed #cbd5e1; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; margin-bottom: 20px; background: #f8fafc; }
+        #preview { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .cam-input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 10; }
+        
+        /* Inputs */
         .input-group { margin-bottom: 15px; }
-        label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 5px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; outline: none; font-size: 14px; }
-        input:focus { border-color: var(--primary); }
-
-        .btn-submit { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s; }
-        .btn-submit:active { transform: scale(0.98); background: #1d4ed8; }
-
-        /* Status Badge */
-        .status-msg { margin-top: 15px; padding: 10px; border-radius: 8px; font-size: 13px; display: none; text-align: center; }
+        label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+        input, textarea { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; font-family: inherit; font-size: 14px; }
+        textarea { height: 80px; resize: none; }
+        
+        .btn-live { width: 100%; background: var(--primary); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        .btn-live:active { transform: scale(0.97); background: #1d4ed8; }
+        
+        .status-msg { text-align: center; margin-top: 15px; font-weight: 600; display: none; }
     </style>
 </head>
 <body>
 
     <div id="loginOverlay">
-        <div style="padding: 20px; width: 100%;">
-            <div style="font-size: 40px; margin-bottom: 10px;">🛡️</div>
-            <h2>Admin Access</h2>
-            <p style="opacity: 0.7;">Enter Secret PIN to Continue</p>
-            <input type="password" id="pinInput" placeholder="Enter PIN" style="max-width: 200px; text-align: center; letter-spacing: 5px;">
-            <br><br>
-            <button onclick="checkPin()" class="btn-submit" style="width: auto; padding: 10px 40px;">Login</button>
+        <div class="login-card">
+            <h1 style="margin:0; font-size: 24px;">SwayamStore</h1>
+            <p style="color: #64748b; font-size: 14px;">Employee Authentication</p>
+            <input type="text" id="agentId" placeholder="Agent ID (e.g. SP01)" style="margin-bottom: 15px;">
+            <input type="password" id="pin" placeholder="Enter PIN (1234)" style="margin-bottom: 20px;">
+            <button class="btn-live" onclick="verifyAgent()">Login to Dashboard</button>
         </div>
     </div>
 
-    <header class="admin-header">
-        <div>Swayam<b>Store</b> Admin</div>
-        <div onclick="location.reload()" style="cursor:pointer; font-size: 12px; background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 5px;">Logout</div>
-    </header>
-
-    <div class="container">
-        <h3 style="margin-top: 5px;">📸 Add New Product</h3>
+    <div class="admin-box">
+        <h2 style="font-size: 20px; color: #1e293b;">🚀 Naya Product Add Karein</h2>
         
         <div class="form-card">
-            <label>Product Photo (Field Capture)</label>
-            <div class="camera-container" id="camBox">
-                <input type="file" accept="image/*" capture="environment" onchange="previewImage(this)">
-                <div class="camera-icon">📷</div>
-                <div id="camLabel">Tap to Open Camera</div>
-                <img id="imagePreview">
+            <div class="camera-box">
+                <img id="preview" src="#" alt="Product Preview">
+                <div id="placeholderText" style="text-align:center;">
+                    <span style="font-size: 40px;">📸</span>
+                    <p style="margin:5px; color:#64748b; font-size: 13px;">Tap to Take Product Photo</p>
+                </div>
+                <input type="file" accept="image/*" capture="environment" class="cam-input" onchange="showPreview(this)">
             </div>
 
             <div class="input-group">
-                <label>Dukan ka Naam & Item</label>
-                <input type="text" id="pName" placeholder="e.g. Sahu Store - 5kg Rice">
+                <label>Dukan ka Naam</label>
+                <input type="text" id="shopName" placeholder="e.g. Sahu Kirana Store">
             </div>
 
             <div class="input-group">
-                <label>Category</label>
-                <select id="pCat">
-                    <option value="grocery">Grocery</option>
-                    <option value="fashion">Fashion</option>
-                    <option value="mobile">Mobile & Tech</option>
-                    <option value="local">Local Special</option>
-                </select>
+                <label>Dukan ka Address</label>
+                <input type="text" id="shopAddress" placeholder="e.g. Main Chowk, Jharbandh">
             </div>
 
             <div class="input-group">
-                <label>Selling Price (₹)</label>
-                <input type="number" id="pPrice" placeholder="Enter price in Rupees">
+                <label>WhatsApp Number (Delivery/Chat)</label>
+                <input type="number" id="shopPhone" placeholder="91XXXXXXXXXX">
+            </div>
+
+            <hr style="border: 0.5px solid #f1f5f9; margin: 20px 0;">
+
+            <div class="input-group">
+                <label>Product ka Naam</label>
+                <input type="text" id="pName" placeholder="e.g. 5kg Arwa Chawal">
             </div>
 
             <div class="input-group">
-                <label>Stock Quantity (Optional)</label>
-                <input type="text" id="pStock" placeholder="e.g. 10 Units or Available">
+                <label>Price (₹)</label>
+                <input type="number" id="pPrice" placeholder="Bechne ka daam">
             </div>
 
-            <button class="btn-submit" onclick="submitProduct()">🚀 Live karein (Upload)</button>
+            <div class="input-group">
+                <label>Product Details (Optional)</label>
+                <textarea id="pDetails" placeholder="Quality ya naya stock ke baare mein likhein..."></textarea>
+            </div>
+
+            <button class="btn-live" onclick="uploadToFirebase()">🚀 Live Karein (Upload)</button>
             <div id="status" class="status-msg"></div>
         </div>
+        
+        <p style="text-align: center;"><a href="profile.html" style="color: #94a3b8; text-decoration:none; font-size: 13px;">← Back to Profile</a></p>
     </div>
 
-    <script>
-        // 1. Simple PIN Security (Default: 1234)
-        function checkPin() {
-            const pin = document.getElementById('pinInput').value;
-            if(pin === "1234") { // Aap ise apne hisaab se change kar sakte hain
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+        // YAHAN APNI CONFIG DETAILS DAALEIN
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "XXXX",
+            appId: "XXXX"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 1. Verify Employee
+        window.verifyAgent = function() {
+            const agent = document.getElementById('agentId').value;
+            const pin = document.getElementById('pin').value;
+            if(pin === "1234" && agent !== "") {
+                localStorage.setItem("currentAgent", agent);
                 document.getElementById('loginOverlay').style.display = 'none';
             } else {
-                alert("Galat PIN! Dubara koshish karein.");
+                alert("Galat PIN ya ID!");
             }
         }
 
-        // 2. Image Preview Logic
-        function previewImage(input) {
-            const preview = document.getElementById('imagePreview');
-            const camLabel = document.getElementById('camLabel');
-            
+        // 2. Image Preview
+        window.showPreview = function(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                    camLabel.style.display = 'none';
+                    const img = document.getElementById('preview');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    document.getElementById('placeholderText').style.display = 'none';
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        // 3. Submit Logic (Abhi ke liye local alert)
-        function submitProduct() {
-            const name = document.getElementById('pName').value;
-            const price = document.getElementById('pPrice').value;
+        // 3. Final Upload
+        window.uploadToFirebase = async function() {
             const status = document.getElementById('status');
+            const data = {
+                shopName: document.getElementById('shopName').value,
+                shopAddress: document.getElementById('shopAddress').value,
+                shopPhone: document.getElementById('shopPhone').value,
+                productName: document.getElementById('pName').value,
+                productPrice: document.getElementById('pPrice').value,
+                productDetails: document.getElementById('pDetails').value,
+                addedBy: localStorage.getItem("currentAgent"),
+                timestamp: new Date()
+            };
 
-            if(name === "" || price === "") {
-                alert("Pahle detail bhariye!");
+            if(!data.shopName || !data.productName || !data.productPrice || !data.shopPhone) {
+                alert("Zaroori details (Name, Price, Phone) bharna bhul gaye!");
                 return;
             }
 
             status.style.display = 'block';
-            status.style.background = '#dcfce7';
-            status.style.color = '#166534';
-            status.innerHTML = "<b>Success!</b> Product database mein add ho gaya.";
+            status.innerText = "⏳ Uploading to Server...";
+            status.style.color = "#2563eb";
 
-            // Reset form for next entry after 2 seconds
-            setTimeout(() => {
-                location.reload();
-            }, 2000);
+            try {
+                await addDoc(collection(db, "products"), data);
+                status.innerText = "✅ Product Live Ho Gaya!";
+                status.style.color = "green";
+                setTimeout(() => location.reload(), 2000);
+            } catch (e) {
+                status.innerText = "❌ Connection Error!";
+                status.style.color = "red";
+                console.error(e);
+            }
         }
     </script>
 </body>
